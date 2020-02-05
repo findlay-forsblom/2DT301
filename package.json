@@ -1,0 +1,34 @@
+{
+  "name": "ff222ey_lu222bg_project",
+  "version": "1.0.0",
+  "description": "Repository for the course 2DT301",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "lint": "npx eslint . || exit 0",
+    "devstart": "nodemon --inspect ./app.js",
+    "lint:fix": "npx eslint . --fix || exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/findlay-forsblom/2DT301.git"
+  },
+  "author": "ff222ey@student.lnu.se and Lu222bg@student.lnu.se",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-hbs": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "*",
+    "snazzy": "*",
+    "standard": "*"
+  },
+  "nodemonConfig": {
+    "ext": "js,json,hbs,html,css"
+  },
+  "bugs": {
+    "url": "https://github.com/findlay-forsblom/2DT301/issues"
+  },
+  "homepage": "https://github.com/findlay-forsblom/2DT301#readme"
+}
