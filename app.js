@@ -13,6 +13,7 @@ app.engine('hbs', hbs.express4({
 app.set('view engine', 'hbs')
 
 app.use('/', require('./routes/homeRouter.js'))
+console.log('new')
 
 app.use((err, req, res, next) => {
   if (err.status === 404) {
