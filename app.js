@@ -3,6 +3,8 @@
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
+const ttn = require('ttn')
+const keys = require('keys')
 
 const port = 8000
 
@@ -15,7 +17,6 @@ app.engine('hbs', hbs.express4({
 app.set('view engine', 'hbs')
 
 app.use('/', require('./routes/homeRouter.js'))
-console.log('new')
 
 app.use((err, req, res, next) => {
   if (err.status === 404) {
@@ -28,5 +29,16 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500)
   res.sendFile(path.join(__dirname, 'public', '500.html'))
 })
+
+ttn.data(keys.ttn.appID, keys.ttn.accessKey)
+  .then((client) => {
+    client.on('uplink', (devID, payload) => {
+      console.log('Received uplink from ', devID)
+      console.log(payload)
+    })
+  })
+  .catch((err) => {
+    console.log(err)
+  })
 
 app.listen(port, () => console.log('Server running at http://localhost:' + port))

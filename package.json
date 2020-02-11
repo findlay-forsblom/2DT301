@@ -17,7 +17,8 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
-    "express-hbs": "^2.2.0"
+    "express-hbs": "^2.2.0",
+    "ttn": "^2.3.3"
   },
   "devDependencies": {
     "nodemon": "*",
