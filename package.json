@@ -16,6 +16,7 @@
   "author": "ff222ey@student.lnu.se and Lu222bg@student.lnu.se",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-hbs": "^2.2.0",
     "ttn": "^2.3.3"
