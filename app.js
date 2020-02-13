@@ -20,6 +20,7 @@ app.engine('hbs', hbs.express4({
   partialsDir: path.join(__dirname, 'views', 'partials')
 }))
 app.set('view engine', 'hbs')
+console.log('test')
 
 app.use('/', require('./routes/homeRouter.js'))
 
