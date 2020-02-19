@@ -1,0 +1,161 @@
+<style>
+.container {
+  margin-top: 1em;
+}
+
+.toast-body {
+  cursor: pointer;
+}
+
+.clr {
+  display: block;
+  text-align: right;
+}
+
+.toast-body a {
+  display: inline-block;
+  text-decoration: none;
+  text-align: right;
+}
+
+.toast {
+  width: 100%;
+  margin-bottom: 1.5em;
+}
+
+.events .row {
+  margin-bottom: 0.5em;
+}
+
+.img {
+  display: block;
+  margin: auto;
+  width: 80px;
+}
+
+p {
+  margin: 0;
+}
+
+.italics {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.lol {
+  width: 100%;
+  height: 480px;
+  overflow-y: auto;
+}
+
+.videoText {
+  text-align: center;
+  margin: auto;
+  color: white;
+  vertical-align: middle;
+  line-height: 480px;  
+}
+
+.player {
+  width: 640px;
+  height: 480px;
+  background-color: rgba(0, 0, 0, 0.849);
+  margin-bottom: 0.65em;
+}
+
+.notis {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="player">
+        <p class="videoText">No stream being sent at the moment</p>
+        <img src="linnaeus.asuscomm.com:8081/stream.mjpg" class="hide">
+      </div>
+      <button type="button" class="btn btn-primary ">Request Video Stream</button>
+      <div class="container events">
+
+        <h2>Recent events</h2>
+          <div class="row bg-light p-3 ">
+            <div class="col-md-8">
+              <h5 class="text-secondary">Event</h5>
+            </div>
+            <div class="col-md-4">
+              <h5 class="text-secondary text-right">Time</h5>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <p class="text-secondary">Motion detected from <span class="italics">LoraDeviceName</span> <a href="#">click here</a> to view image taken</p>
+            </div>
+            <div class="col-md-4">
+              <p class="text-secondary text-right px-4">January 30th 2020, 9:37 am</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <p class="text-secondary">Motion detected from <span class="italics">LoraDeviceName</span> <a href="#">click here</a> to view image taken</p>
+            </div>
+            <div class="col-md-4">
+              <p class="text-secondary text-right px-4">January 30th 2020, 9:37 am</p>
+            </div>
+          </div>
+      </div>
+      <button type="button" class="btn btn-danger btn-sm float-right">Clear history</button>
+    </div>
+    <div class="col-4 lol">
+      <div aria-live="polite" aria-atomic="true"  data-autohide="false">
+        <!-- Position it -->
+        <div class="notis">
+
+        <!-- Then put toasts within -->
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+          <div class="toast-header">
+            <strong class="mr-auto">Motion detected</strong>
+            <small class="text-muted">just now</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            <p>Motion detected from <span class="italics">LoraDeviceName</span></p>
+            <p>Image taken from raspbery pi at <span class="italics">2:55 pm today</span></p>
+            <img class="img" src="https://scontent.fbma4-1.fna.fbcdn.net/v/t1.0-9/10940480_1375253096119993_7246019023456750357_n.jpg?_nc_cat=101&_nc_ohc=sQlQyiDJGsYAX_FDhIE&_nc_ht=scontent.fbma4-1.fna&oh=5904c5b85b1ec2fcb88098fce9b05f72&oe=5F01FAEC">
+          </div>
+        </div>
+
+        
+
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+          <div class="toast-header">
+            <strong class="mr-auto">Motion detected</strong>
+            <small class="text-muted">2 seconds ago</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            <img class="img" src="https://scontent.fbma4-1.fna.fbcdn.net/v/t1.0-9/10940480_1375253096119993_7246019023456750357_n.jpg?_nc_cat=101&_nc_ohc=sQlQyiDJGsYAX_FDhIE&_nc_ht=scontent.fbma4-1.fna&oh=5904c5b85b1ec2fcb88098fce9b05f72&oe=5F01FAEC">
+            <p>Motion detected from <span class="italics">LoraDeviceName</span></p>
+            <p>Image taken from raspbery pi at <span class="italics">2:55 pm today</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- <img src="linnaeus.asuscomm.com:8081/stream.mjpg" alt="khkhk"> --}}
+
+<script src="/assets/scripts/client.js"></script>
