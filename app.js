@@ -3,8 +3,6 @@
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
-// const ttn = require('ttn')
-// const keys = require('keys')
 const dotenv = require('dotenv')
 const mongoose = require('./config/mongoose.js')
 const session = require('express-session')
@@ -39,6 +37,9 @@ mongoose.connect().catch(error => {
 const port = 3000
 
 const app = express()
+const server = require('http').Server(app)
+const io = require('socket.io')(server, { pingInterval: 2000, pingTimeout: 5000 })
+module.exports = { io }
 
 app.use(session(sessionOptions))
 
@@ -90,15 +91,4 @@ app.use((err, req, res, next) => {
   res.sendFile(path.join(__dirname, 'public', 'assets', 'html', '500.html'))
 })
 
-// ttn.data(process.env.appID, process.env.accessKey)
-//   .then((client) => {
-//     client.on('uplink', (devID, payload) => {
-//       console.log('Received uplink from ', devID)
-//       console.log(payload)
-//     })
-//   })
-//   .catch((err) => {
-//     console.log(err)
-//   })
-
-app.listen(port, () => console.log('Server running at http://localhost:' + port))
+server.listen(port, () => { console.log(`Server running at http://localhost:${port}`) })
