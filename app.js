@@ -24,7 +24,7 @@ const sessionOptions = {
   resave: false, // Resave even if a request is not changing the session.
   saveUninitialized: false, // Don't save a created but not modified session.
   cookie: {
-    maxAge: 1000 * 60 * 60, // % 1 hour
+    maxAge: 1000 * 60 * 60, // % 1 hours
     sameSite: 'lax', // change to lax maybe
     HttpOnly: true
   },
