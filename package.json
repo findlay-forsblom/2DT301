@@ -22,9 +22,11 @@
     "express": "^4.17.1",
     "express-hbs": "^2.2.0",
     "express-session": "^1.17.0",
+    "moment": "^2.24.0",
     "mongoose": "^5.9.0",
     "mongoose-unique-validator": "^2.0.3",
     "redis": "^3.0.2",
+    "socket.io": "^2.3.0",
     "ttn": "^2.3.3"
   },
   "devDependencies": {

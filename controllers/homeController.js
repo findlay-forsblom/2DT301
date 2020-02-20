@@ -1,6 +1,9 @@
 'use strict'
 const passwordChecker = require('../libs/passwordChecker.js')
 const User = require('../models/user.js')
+const ttn = require('ttn')
+const io = require('../app.js').io
+const moment = require('moment')
 const homeController = {}
 const err = {}
 
@@ -14,7 +17,7 @@ homeController.register = async (req, res, next) => {
 
 /**
  * When a user registers it takes the username and ensures that
- * it is unique. It does the same for the email. It also checks that both passwrods match 
+ * it is unique. It does the same for the email. It also checks that both passwrods match
  * and that they meet the requirements
  *
  * If all is good the password is hashed and the user is created and stored in a databse
@@ -85,6 +88,35 @@ homeController.loginPost = async (req, res, next) => {
 }
 
 homeController.profile = async (req, res, next) => {
+  // Set up socket connection to client.
+  io.on('connection', (socket) => {
+    console.log('Socket online')
+    io.emit('notification', { deviceID: 'lora-node-1', message: 'Motion detected', time: moment().calendar() })
+
+    // Listen for changes on application from TTN.
+    ttn.data(process.env.appID, process.env.accessKey)
+      .then((client) => {
+        client.on('uplink', (devID, payload) => {
+          console.log('Received uplink from ', devID)
+          console.log(payload)
+
+          io.emit('notification', { deviceID: 'lora-node-1', message: 'Motion detected' })
+
+          if (payload.payload_fields.message !== 'ack') {
+            client.send(payload.dev_id, [1])
+            console.log('Sent ack to node.')
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    socket.on('disconnect', (data) => {
+      console.log(data, 'Socket disconnected')
+    })
+  })
+
   res.render('profile/profile')
 }
 
