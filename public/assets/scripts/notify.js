@@ -57,11 +57,17 @@ function notifyClient () {
   const header = toast.querySelector('.head-text')
   const devName = toast.querySelector('.dev-name')
   const time = toast.querySelector('.time')
+  const img = toast.querySelector('.img')
 
   header.innerText = this.message
   devName.innerText = this.deviceID
   this.body = header.textContent + ' from ' + devName.textContent
   time.innerText = this.time
+  console.log(this.img)
+  if (this.img) {
+    // If image exists, otherwise show default img.
+    img.src = this.img
+  }
 
   notis.appendChild(toast, notis.firstElementChild)
   window.$(toast).toast('show')
