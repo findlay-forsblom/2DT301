@@ -1,5 +1,6 @@
 .container {
     margin-top: 1em;
+    margin-bottom: 1em;
   }
   
   .toast-body {
@@ -70,4 +71,11 @@
   
   .hide {
     display: none;
+  }
+
+  .notis .img{
+      margin-top: 5px;
+      margin-left: 0px;
+      width: 180px;
+      justify-content: left;
   }

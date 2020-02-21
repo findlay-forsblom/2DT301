@@ -5,11 +5,11 @@ const homeController = {}
 const err = {}
 
 homeController.index = async (req, res, next) => {
-  res.render('home/login')
+  res.render('home/login', { csrfToken: req.csrfToken() })
 }
 
 homeController.register = async (req, res, next) => {
-  res.render('home/register')
+  res.render('home/register', { csrfToken: req.csrfToken() })
 }
 
 /**

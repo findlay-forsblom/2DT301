@@ -1,6 +1,9 @@
 .img {
     width: 18px;
   }
+  .dropdown-toggle{
+      margin-right: 50px;
+  }
   .username {
     font-size: 13px;
     padding-left: 1em;

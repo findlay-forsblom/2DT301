@@ -41,7 +41,16 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { pingInterval: 2000, pingTimeout: 5000 })
 
-module.exports = { io } // HÄR SKA VI FIXA!!
+// CSRF protection for form POST requests.
+const csrf = require('csurf')
+const csrfProtection = csrf({ cookie: true })
+
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+app.use(bodyParser.json())
+app.use(cookieParser())
+
+module.exports = { io, csrfProtection, bodyParser }
 
 // Helmet security functions.
 app.use(helmet())
@@ -50,10 +59,11 @@ app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'", 'https://*.cscloud626.lnu.se/'],
-    styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/'],
+    styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/', 'https://fonts.googleapis.com/'],
     scriptSrc: ["'self'", 'https://code.jquery.com/', 'https://cscloud626.lnu.se/', 'https://cdn.jsdelivr.net/', 'https://stackpath.bootstrapcdn.com/'],
     imgSrc: ["'self'", 'http://linnaeus.asuscomm.com:8081/', 'http://85.228.224.34:8081/', 'https://getbootstrap.com/'],
-    connectSrc: ["'self'"]
+    connectSrc: ["'self'"],
+    fontSrc: ['https://fonts.gstatic.com/', "'self'"]
   }
 }))
 
