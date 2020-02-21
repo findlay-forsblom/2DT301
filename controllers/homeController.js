@@ -116,40 +116,40 @@ homeController.profile = async (req, res, next) => {
       })
 
     // Listen for changes on application from TTN.
-    // ttn.data(process.env.appID, process.env.accessKey)
-    //   .then((client) => {
-    //     client.on('uplink', (devID, payload) => {
-    //       console.log('Received uplink from ', devID)
-    //       console.log(payload)
+    ttn.data(process.env.appID, process.env.accessKey)
+      .then((client) => {
+        client.on('uplink', (devID, payload) => {
+          console.log('Received uplink from ', devID)
+          console.log(payload)
 
-    //       const detectID = randomString()
-    //       superagent
-    //         .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
-    //         .end((err, res) => {
-    //           // Calling the end function will send the request
-    //           if (err) {
-    //             console.log(err)
-    //           }
+          const detectID = randomString()
+          superagent
+            .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
+            .end((err, res) => {
+              // Calling the end function will send the request
+              if (err) {
+                console.log(err)
+              }
 
-    //           // TODO: Save detection to DB with time, img-link etc.
-    //           const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
-    //           const detectTime = moment().calendar()
-    //           const deviceID = 'lora-device-1'
+              // TODO: Save detection to DB with time, img-link etc.
+              const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
+              const detectTime = moment().calendar()
+              const deviceID = 'lora-device-1'
 
-    //           console.log(imgUrl)
+              console.log(imgUrl)
 
-    //           io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
-    //         })
+              io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
+            })
 
-    //       if (payload.payload_fields.message !== 'ack') {
-    //         client.send(payload.dev_id, [1])
-    //         console.log('Sent ack to node.')
-    //       }
-    //     })
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
+          if (payload.payload_fields.message !== 'ack') {
+            client.send(payload.dev_id, [1])
+            console.log('Sent ack to node.')
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
     socket.on('disconnect', (data) => {
       console.log(data, 'Socket disconnected')
