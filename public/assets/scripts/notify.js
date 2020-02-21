@@ -38,6 +38,7 @@ export default class Notify {
   }
 
   notify () {
+    console.log('i am here')
     notifyClient.call(this)
     if (document.hidden) {
       console.log('api call')
