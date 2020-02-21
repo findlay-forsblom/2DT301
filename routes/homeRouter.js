@@ -4,7 +4,7 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', controller.redirectHome, controller.index) // Login page
-router.get('/profile', controller.ensureAuthenticated, controller.profile) // route for profile
+// router.get('/profile', controller.ensureAuthenticated, controller.profile) // route for profile
 router.get('/register', controller.register) // route for register page
 
 router.post('/register', controller.registerPost) // post regsiter handler

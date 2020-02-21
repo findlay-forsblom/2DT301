@@ -72,6 +72,7 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/', require('./routes/homeRouter.js'))
+app.use('/profile', require('./routes/profileRouter.js'))
 
 app.use((req, res, next) => {
   const err = {}
