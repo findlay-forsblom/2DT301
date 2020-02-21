@@ -1,5 +1,18 @@
 'use strict'
 
+/**
+ * Express server application program, which serves an application which fetches
+ * information from connected IoT-devices and sets up video stream from video streaming
+ * server from a Raspberry Pi. Security has been implemented from different modules and
+ * code implementations.
+ *
+ * For the project in the course 2DT301, this server runs behind a
+ * Reversed Proxy which only handles HTTPS request.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
+ * @author Lars Petter Ulvatne, lu222bg, Linnaeus University.
+ */
+
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
@@ -97,7 +110,7 @@ app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/', require('./routes/homeRouter.js'))
+app.use('/', require('./routes/authRouter.js'))
 app.use('/profile', require('./routes/profileRouter.js'))
 
 app.use((req, res, next) => {

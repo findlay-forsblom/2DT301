@@ -1,16 +1,34 @@
 'use strict'
+
+/**
+ * Controller handling the profile page of authenticated users. Renders profile
+ * page and starts socket for real time communication of events sent over The
+ * Things Network from IoT-device and sets up video stream/images from camera
+ * served on Raspberry Pi module.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
+ * @author Lars Petter Ulvatne, lu222bg, Linnaeus University.
+ */
+
 const superagent = require('superagent')
 const randomString = require('../libs/randomString').randomString
-const ttn = require('ttn')
+// const ttn = require('ttn')
 const io = require('../app.js').io
 const moment = require('moment')
 const profileController = {}
 const err = {}
 
+// Url to video stream server.
 // const STREAM_SERVER = 'http://linnaeus.asuscomm.com:8081'
 const STREAM_SERVER = 'http://85.228.224.34:8081'
 
-// Ensures that a user that is authentticated before allowing them to resources that requires authentication
+/**
+ * Middleware used to ensure that a user is authenticated before allowing them
+ * access to resources which needs authentication.
+ * @param {HTTP request object} req The request made by client.
+ * @param {HTTP response object} res The response to send to client.
+ * @param {Callback function} next Callback for next middleware.
+ */
 profileController.ensureAuthenticated = async (req, res, next) => {
   if (req.session.userId) {
     next()
@@ -20,11 +38,18 @@ profileController.ensureAuthenticated = async (req, res, next) => {
   }
 }
 
+/**
+ * Render profile view.
+ * @param {HTTP request object} req The request made by client.
+ * @param {HTTP response object} res The response to send to client.
+ * @param {Callback function} next Callback for next middleware.
+ */
 profileController.profile = async (req, res, next) => {
   // Set up socket connection to client.
   res.render('profile/profile')
 }
 
+// Setup socket connection to accessed profile page, which handles TTN requests real time.
 io.on('connection', (socket) => {
   console.log('Socket online')
   const detectID = randomString()
