@@ -23,7 +23,16 @@ const streamTag = document.querySelector('.player img')
 const noStreamTag = document.querySelector('.player p')
 
 streamBtn.addEventListener('click', () => {
-  streamTag.src = `${STREAM_SRC}/stream`
-  streamTag.classList.replace('hide', 'show')
-  noStreamTag.classList.replace('show', 'hide')
+  if (streamBtn.innerText === 'Request Video Stream') {
+    streamTag.src = `${STREAM_SRC}/stream`
+    streamTag.classList.replace('hide', 'show')
+    noStreamTag.classList.replace('show', 'hide')
+    streamBtn.innerText = 'Stop stream'
+    streamBtn.classList.replace('btn-primary', 'btn-danger')
+  } else {
+    streamTag.classList.replace('show', 'hide')
+    noStreamTag.classList.replace('hide', 'show')
+    streamBtn.innerText = 'Request Video Stream'
+    streamBtn.classList.replace('btn-danger', 'btn-primary')
+  }
 })

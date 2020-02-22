@@ -1,85 +1,10 @@
-<style>
-.container {
-  margin-top: 1em;
-}
-
-.toast-body {
-  cursor: pointer;
-}
-
-.clr {
-  display: block;
-  text-align: right;
-}
-
-.toast-body a {
-  display: inline-block;
-  text-decoration: none;
-  text-align: right;
-}
-
-.toast {
-  width: 100%;
-  margin-bottom: 1.5em;
-}
-
-.events .row {
-  margin-bottom: 0.5em;
-}
-
-.img {
-  display: block;
-  margin: auto;
-  width: 80px;
-}
-
-p {
-  margin: 0;
-}
-
-.italics {
-  font-style: italic;
-  font-weight: 600;
-}
-
-.lol {
-  width: 100%;
-  height: 480px;
-  overflow-y: auto;
-}
-
-.videoText {
-  text-align: center;
-  margin: auto;
-  color: white;
-  vertical-align: middle;
-  line-height: 480px;  
-}
-
-.player {
-  width: 640px;
-  height: 480px;
-  background-color: rgba(0, 0, 0, 0.849);
-  margin-bottom: 0.65em;
-}
-
-.notis {
-  display: flex;
-  flex-direction: column-reverse;
-  width: 100%;
-}
-
-.hide {
-  display: none;
-}
-</style>
-
+<link rel="stylesheet" href="/assets/css/profile.css">
 <div class="container">
   <div class="row">
     <div class="col-8">
       <div class="player">
         <p class="videoText show">No stream being sent at the moment</p>
-        <img src="linnaeus.asuscomm.com:8081/stream.mjpg" class="hide">
+        <img src="http://linnaeus.asuscomm.com:8081/stream.mjpg" class="hide">
       </div>
       <button type="button" class="btn btn-primary streamBtn">Request Video Stream</button>
       <div class="container events">

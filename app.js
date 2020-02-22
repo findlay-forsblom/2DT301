@@ -9,6 +9,7 @@ const session = require('express-session')
 const redis = require('redis')
 const redisClient = redis.createClient()
 const RedisStore = require('connect-redis')(session)
+const helmet = require('helmet')
 
 dotenv.config({
   path: './.env'
@@ -39,7 +40,22 @@ const port = 3000
 const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { pingInterval: 2000, pingTimeout: 5000 })
-module.exports = { io }
+
+module.exports = { io } // HÄR SKA VI FIXA!!
+
+// Helmet security functions.
+app.use(helmet())
+
+// Set the CSP header to trusted sources.
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'", 'https://*.cscloud626.lnu.se/'],
+    styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/'],
+    scriptSrc: ["'self'", 'https://code.jquery.com/', 'https://cscloud626.lnu.se/', 'https://cdn.jsdelivr.net/', 'https://stackpath.bootstrapcdn.com/'],
+    imgSrc: ["'self'", 'http://linnaeus.asuscomm.com:8081/', 'http://85.228.224.34:8081/', 'https://getbootstrap.com/'],
+    connectSrc: ["'self'"]
+  }
+}))
 
 app.use(session(sessionOptions))
 
@@ -72,6 +88,7 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/', require('./routes/homeRouter.js'))
+app.use('/profile', require('./routes/profileRouter.js'))
 
 app.use((req, res, next) => {
   const err = {}
