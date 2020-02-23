@@ -1,16 +1,35 @@
 'use strict'
+
+/**
+ * Controller handling the profile page of authenticated users. Renders profile
+ * page and starts socket for real time communication of events sent over The
+ * Things Network from IoT-device and sets up video stream/images from camera
+ * served on Raspberry Pi module.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
+ * @author Lars Petter Ulvatne, lu222bg, Linnaeus University.
+ */
+
 const superagent = require('superagent')
 const randomString = require('../libs/randomString').randomString
-const ttn = require('ttn')
+const Event = require('../models/event.js')
+// const ttn = require('ttn')
 const io = require('../app.js').io
 const moment = require('moment')
 const profileController = {}
 const err = {}
 
+// Url to video stream server.
 // const STREAM_SERVER = 'http://linnaeus.asuscomm.com:8081'
 const STREAM_SERVER = 'http://85.228.224.34:8081'
 
-// Ensures that a user that is authentticated before allowing them to resources that requires authentication
+/**
+ * Middleware used to ensure that a user is authenticated before allowing them
+ * access to resources which needs authentication.
+ * @param {HTTP request object} req The request made by client.
+ * @param {HTTP response object} res The response to send to client.
+ * @param {Callback function} next Callback for next middleware.
+ */
 profileController.ensureAuthenticated = async (req, res, next) => {
   if (req.session.userId) {
     next()
@@ -20,17 +39,54 @@ profileController.ensureAuthenticated = async (req, res, next) => {
   }
 }
 
+/**
+ * Render profile view.
+ * @param {HTTP request object} req The request made by client.
+ * @param {HTTP response object} res The response to send to client.
+ * @param {Callback function} next Callback for next middleware.
+ */
 profileController.profile = async (req, res, next) => {
   // Set up socket connection to client.
-  res.render('profile/profile')
+  const events = await Event.find()
+  events.forEach((event, index) => {
+    event = event.toObject()
+    const time = event.time
+    event.time = moment(time).format('MMMM Do YYYY, h:mm a ')
+    events[index] = event
+  })
+  res.render('profile/profile', { events })
 }
 
-io.on('connection', (socket) => {
+profileController.delete = async (req, res, next) => {
+  try {
+    await Event.deleteMany()
+    req.session.flash = { type: 'success', text: 'Succesfully cleared all recent events' }
+    res.redirect(`/profile/${req.session.username}`)
+  } catch (error) {
+    console.log(error)
+    req.session.flash = { type: 'danger', text: 'An error occured pls try again later' }
+    res.redirect('/')
+  }
+}
+
+// Setup socket connection to accessed profile page, which handles TTN requests real time.
+io.on('connection', async (socket) => {
   console.log('Socket online')
+
+  // try {
+  //   const event = new Event({
+  //     title: 'motion detected',
+  //     deviceID: 'lora-device-1',
+  //     imgUrl: 'lol'
+  //   })
+  //   await event.save()
+  // } catch (error) {
+  //   console.log(error)
+  // }
   const detectID = randomString()
   superagent
     .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
-    .end((err, res) => {
+    .end(async (err, res) => {
       // Calling the end function will send the request
       if (err) {
         console.log(err)
@@ -40,6 +96,17 @@ io.on('connection', (socket) => {
       const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
       const detectTime = moment().calendar()
       const deviceID = 'lora-device-1'
+
+      try {
+        const event = new Event({
+          title: 'motion detected',
+          deviceID,
+          imgUrl
+        })
+        await event.save()
+      } catch (error) {
+        console.log(error)
+      }
 
       console.log(imgUrl)
 

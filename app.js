@@ -1,5 +1,18 @@
 'use strict'
 
+/**
+ * Express server application program, which serves an application which fetches
+ * information from connected IoT-devices and sets up video stream from video streaming
+ * server from a Raspberry Pi. Security has been implemented from different modules and
+ * code implementations.
+ *
+ * For the project in the course 2DT301, this server runs behind a
+ * Reversed Proxy which only handles HTTPS request.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
+ * @author Lars Petter Ulvatne, lu222bg, Linnaeus University.
+ */
+
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
@@ -41,7 +54,16 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { pingInterval: 2000, pingTimeout: 5000 })
 
-module.exports = { io } // HÄR SKA VI FIXA!!
+// CSRF protection for form POST requests.
+const csrf = require('csurf')
+const csrfProtection = csrf({ cookie: true })
+
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+app.use(bodyParser.json())
+app.use(cookieParser())
+
+module.exports = { io, csrfProtection, bodyParser }
 
 // Helmet security functions.
 app.use(helmet())
@@ -50,10 +72,11 @@ app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'", 'https://*.cscloud626.lnu.se/'],
-    styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/'],
+    styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/', 'https://fonts.googleapis.com/'],
     scriptSrc: ["'self'", 'https://code.jquery.com/', 'https://cscloud626.lnu.se/', 'https://cdn.jsdelivr.net/', 'https://stackpath.bootstrapcdn.com/'],
     imgSrc: ["'self'", 'http://linnaeus.asuscomm.com:8081/', 'http://85.228.224.34:8081/', 'https://getbootstrap.com/'],
-    connectSrc: ["'self'"]
+    connectSrc: ["'self'"],
+    fontSrc: ['https://fonts.gstatic.com/', "'self'"]
   }
 }))
 
@@ -87,7 +110,7 @@ app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/', require('./routes/homeRouter.js'))
+app.use('/', require('./routes/authRouter.js'))
 app.use('/profile', require('./routes/profileRouter.js'))
 
 app.use((req, res, next) => {

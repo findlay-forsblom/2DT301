@@ -1,10 +1,11 @@
 <link rel="stylesheet" href="/assets/css/profile.css">
+
 <div class="container">
   <div class="row">
     <div class="col-8">
       <div class="player">
         <p class="videoText show">No stream being sent at the moment</p>
-        <img src="http://linnaeus.asuscomm.com:8081/stream.mjpg" class="hide">
+        <img src="" class="hide">
       </div>
       <button type="button" class="btn btn-primary streamBtn">Request Video Stream</button>
       <div class="container events">
@@ -19,25 +20,20 @@
             </div>
           </div>
 
-          <div class="row">
+          {{#each events }}
+            <div class="row">
             <div class="col-md-8">
-              <p class="text-secondary">Motion detected from <span class="italics">LoraDeviceName</span> <a href="#">click here</a> to view image taken</p>
+              <p class="text-secondary">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="{{this.imgUrl}}">click here</a> to view image taken</p>
             </div>
             <div class="col-md-4">
-              <p class="text-secondary text-right px-4">January 30th 2020, 9:37 am</p>
+              <p class="text-secondary text-right px-4">{{this.time}}</p>
             </div>
           </div>
-
-          <div class="row">
-            <div class="col-md-8">
-              <p class="text-secondary">Motion detected from <span class="italics">LoraDeviceName</span> <a href="#">click here</a> to view image taken</p>
-            </div>
-            <div class="col-md-4">
-              <p class="text-secondary text-right px-4">January 30th 2020, 9:37 am</p>
-            </div>
-          </div>
+          {{/each}}
       </div>
-      <button type="button" class="btn btn-danger btn-sm float-right">Clear history</button>
+      <form action="/profile/{{navBar.username}}/delete" method="POST">
+         <button type="submit" class="btn btn-danger btn-sm float-right">Clear history</button>
+      </form>
     </div>
     <div class="col-4 lol">
       <div aria-live="polite" aria-atomic="true"  data-autohide="false">
