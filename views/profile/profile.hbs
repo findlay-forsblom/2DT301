@@ -8,7 +8,7 @@
         <img src="" class="hide">
       </div>
       <button type="button" class="btn btn-primary streamBtn">Request Video Stream</button>
-      <div class="container events">
+      <div class="container">
 
         <h2>Recent events</h2>
           <div class="row bg-light p-3 ">
@@ -19,17 +19,18 @@
               <h5 class="text-secondary text-right">Time</h5>
             </div>
           </div>
-
-          {{#each events }}
+          <div class="events">
+            {{#each events }}
             <div class="row">
             <div class="col-md-8">
-              <p class="text-secondary">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="{{this.imgUrl}}">click here</a> to view image taken</p>
+              <p class="text-secondary">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="#" class="imagesurl" data-url="{{this.imgUrl}}">click here</a> to view image taken</p>
             </div>
             <div class="col-md-4">
               <p class="text-secondary text-right px-4">{{this.time}}</p>
             </div>
           </div>
           {{/each}}
+          </div>
       </div>
       {{#if events}}
       <form action="/profile/{{navBar.username}}/delete" method="POST">
@@ -40,7 +41,8 @@
     <div class="col-4 lol">
       <div aria-live="polite" aria-atomic="true"  data-autohide="false">
         <!-- Position it -->
-        <div class="notis"></div>
+        <div class="notis">
+      </div>
     </div>
   </div>
 </div>

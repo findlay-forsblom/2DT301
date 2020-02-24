@@ -38,10 +38,8 @@ export default class Notify {
   }
 
   notify () {
-    console.log('i am here')
     notifyClient.call(this)
     if (document.hidden) {
-      console.log('api call')
       notificationApi.call(this)
     }
   }
@@ -64,7 +62,6 @@ function notifyClient () {
   devName.innerText = this.deviceID
   this.body = header.textContent + ' from ' + devName.textContent
   time.innerText = this.time
-  console.log(this.img)
   if (this.img) {
     // If image exists, otherwise show default img.
     img.src = this.img
@@ -78,14 +75,14 @@ function notificationApi () {
   if ('Notification' in window) {
     if (window.Notification.permission === 'granted') {
       // If it's okay let's create a notification
-      doNotify()
+      doNotify.call(this)
     } else {
       // notification == denied
       window.Notification.requestPermission()
         .then(function (result) {
           console.log(result) // granted || denied
           if (window.Notification.permission === 'granted') {
-            doNotify()
+            doNotify.call(this)
           }
         })
         .catch((err) => {
