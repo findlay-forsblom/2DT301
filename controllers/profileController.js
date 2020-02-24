@@ -20,8 +20,8 @@ const profileController = {}
 const err = {}
 
 // Url to video stream server.
-// const STREAM_SERVER = 'http://linnaeus.asuscomm.com:8081'
-const STREAM_SERVER = 'http://85.228.224.34:8081'
+const STREAM_SERVER = 'http://linnaeus.asuscomm.com:8081'
+// const STREAM_SERVER = 'http://85.228.224.34:8081'
 
 /**
  * Middleware used to ensure that a user is authenticated before allowing them

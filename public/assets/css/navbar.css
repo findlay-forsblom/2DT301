@@ -1,10 +1,15 @@
-<<<<<<< HEAD
-.img2 {
+/* .profile-img {
   width: 22px;
   background-color: rgb(211, 208, 208);
-}
-.img2 p {
+} */
+.profile-img p {
   display: inline-block;
+}
+/* .img {
+    width: 18px;
+  } */
+.dropdown-toggle{
+    margin-right: 50px;
 }
 .username {
   font-size: 13px;
@@ -30,36 +35,4 @@
 }
  .show {
 opacity: 1;
-=======
-.img {
-    width: 18px;
-  }
-  .dropdown-toggle{
-      margin-right: 50px;
-  }
-  .username {
-    font-size: 13px;
-    padding-left: 1em;
-    display: inline;
-  }
-  .space {
-    margin: 0.7em;
-  }
-  .margin {
-    margin: 0em;
-    margin-left: 0.8em;
-  }
-  .notis {
-    margin-top: 0.5em;
-  }
-  .size {
-    width: 350px;
-    max-height: 200px;
-    min-height: 80px;
-    background-color: rgb(179, 179, 179);
-    overflow-y: auto;
-  }
-   .show {
-  opacity: 1;
->>>>>>> 7c5d701cbfb68555268f7941188ce0672e3f55e9
 }

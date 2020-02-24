@@ -2,7 +2,7 @@ import Notify from './notify.js'
 
 window.$('.toast').toast('show')
 const socket = window.io()
-const STREAM_SRC = 'http://85.228.224.34:8081'
+const STREAM_SRC = 'http://linnaeus.asuscomm.com:8081'
 let img
 
 socket.on('notification', (data) => {
