@@ -1,4 +1,8 @@
 'use strict'
+/**
+ * Module for creating an Event scheme for the database.
+ * This is what is used for storing the recent events
+ */
 const mongoose = require('mongoose')
 
 const eventSchema = mongoose.Schema({

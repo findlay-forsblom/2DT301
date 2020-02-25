@@ -138,6 +138,8 @@ io.on('connection', async (socket) => {
               const detectTime = moment().calendar()
               const deviceID = payload.payload_fields.device
 
+              io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
+
               try {
                 const event = new Event({
                   title: 'motion detected',
@@ -148,8 +150,6 @@ io.on('connection', async (socket) => {
               } catch (error) {
                 console.log(error)
               }
-
-              io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
             })
         } else if (detections[value]) {
           // Add counts of detections. If 5 counts found send another ack.

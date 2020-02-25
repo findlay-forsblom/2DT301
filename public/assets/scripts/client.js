@@ -1,5 +1,9 @@
 import Notify from './notify.js'
 
+/**
+ * Main client module
+ */
+
 window.$('.toast').toast('show')
 const socket = window.io()
 const STREAM_SRC = 'http://linnaeus.asuscomm.com:8081'
@@ -7,6 +11,9 @@ let img
 let img2
 let p1
 
+/**
+ * Listens for notification events from the server
+ */
 socket.on('notification', (data) => {
   console.log('Got notification')
   img = data.imgUrl
@@ -18,10 +25,12 @@ socket.on('notification', (data) => {
   const notis = new Notify(title, message, img, deviceID, time, url)
   notis.notify()
   window.$('.toast-body').click(click)
-  // const imageTag = document.querySelector('.toast-body')
-  // imageTag.addEventListener('click', enlargePic)
-  // console.log(imageTag)
 })
+
+/**
+ * Function for the click event of the toast-body classes
+ * @param {eventObjecct} e -The event object
+ */
 
 function click (e) {
   lightbox.innerHTML = ''
@@ -42,46 +51,6 @@ function click (e) {
   p1 = p
 }
 
-// window.$('.toast-body').click(function (e) {
-//   console.log('dubnja')
-//   const img = document.createElement('img')
-//   const div = document.createElement('div')
-//   const p = document.createElement('p')
-//   p.textContent = 'Click to start stream'
-//   p.classList.add('playText')
-//   div.appendChild(img)
-//   div.appendChild(p)
-//   let selectedImage = e.currentTarget
-//   console.log(selectedImage)
-//   selectedImage = selectedImage.querySelector('img')
-//   const url = selectedImage.getAttribute('src')
-//   img.setAttribute('src', url)
-//   lightbox.appendChild(div)
-//   lightbox.classList.toggle('hide')
-//   img2 = img
-//   p1 = p
-// })
-
-function enlargePic (e) {
-  // console.log('dubnja')
-  // const img = document.createElement('img')
-  // const div = document.createElement('div')
-  // const p = document.createElement('p')
-  // p.textContent = 'Click to start stream'
-  // p.classList.add('playText')
-  // div.appendChild(img)
-  // div.appendChild(p)
-  // let selectedImage = e.currentTarget
-  // console.log(selectedImage)
-  // selectedImage = selectedImage.querySelector('img')
-  // const url = selectedImage.getAttribute('src')
-  // img.setAttribute('src', url)
-  // lightbox.appendChild(div)
-  // lightbox.classList.toggle('hide')
-  // img2 = img
-  // p1 = p
-}
-
 // If stream button pressed, start stream.
 const streamBtn = document.querySelector('.streamBtn')
 const streamTag = document.querySelector('.player img')
@@ -96,10 +65,14 @@ lightbox.addEventListener('click', (e) => {
     img2.setAttribute('src', `${STREAM_SRC}/stream`)
     p1.classList.add('hide')
   } else {
-    // img2.setAttribute('src', `${STREAM_SRC}/stream`)
     lightbox.classList.toggle('hide')
   }
 })
+
+/**
+ * gets the image url from the recents events and displays the
+ * image in form of a lightbox when clicked
+ */
 
 window.$('.imagesurl').click(function (e) {
   const url = e.currentTarget.getAttribute('data-url')
@@ -110,6 +83,10 @@ window.$('.imagesurl').click(function (e) {
   img.classList.add('.img4')
   lightbox.appendChild(img)
 })
+
+/**
+ * The function responsible for starting and stopping videoStreams
+ */
 
 streamBtn.addEventListener('click', () => {
   if (streamBtn.innerText === 'Request Video Stream') {

@@ -1,4 +1,8 @@
 'use strict'
+
+/**
+ * Scheme for userss that is used by the Database
+ */
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const uniqueValidator = require('mongoose-unique-validator')
@@ -11,6 +15,10 @@ const userSchema = mongoose.Schema({
 
 userSchema.plugin(uniqueValidator, { message: 'Error, {PATH} already exist.' })
 
+/**
+ * Before a new user is saved The password is hashed using bycrypt
+ */
+
 userSchema.pre('save', async function (next) {
   const user = this
 
@@ -20,6 +28,11 @@ userSchema.pre('save', async function (next) {
   }
   next()
 })
+
+/**
+ * when a user is trying to log in. It compares the password typed in, which in this case is the candidate password,
+ * It hashes the candidate password and then compares it to the hashed password that is stored in the database
+ */
 
 userSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password)
