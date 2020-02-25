@@ -13,11 +13,12 @@
 const superagent = require('superagent')
 const randomString = require('../libs/randomString').randomString
 const Event = require('../models/event.js')
-// const ttn = require('ttn')
+const ttn = require('ttn')
 const io = require('../app.js').io
 const moment = require('moment')
 const profileController = {}
 const err = {}
+const detections = {}
 
 // Url to video stream server.
 const STREAM_SERVER = 'http://linnaeus.asuscomm.com:8081'
@@ -73,81 +74,96 @@ profileController.delete = async (req, res, next) => {
 io.on('connection', async (socket) => {
   console.log('Socket online')
 
-  // try {
-  //   const event = new Event({
-  //     title: 'motion detected',
-  //     deviceID: 'lora-device-1',
-  //     imgUrl: 'lol'
+  // const detectID = randomString()
+  // superagent
+  //   .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
+  //   .end(async (err, res) => {
+  //     // Calling the end function will send the request
+  //     if (err) {
+  //       console.log(err)
+  //     }
+
+  //     // TODO: Save detection to DB with time, img-link etc.
+  //     const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
+  //     const detectTime = moment().calendar()
+  //     const deviceID = 'lora-device-1'
+
+  //     try {
+  //       const event = new Event({
+  //         title: 'motion detected',
+  //         deviceID,
+  //         imgUrl
+  //       })
+  //       await event.save()
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+
+  //     console.log(imgUrl)
+
+  //     io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
   //   })
-  //   await event.save()
-  // } catch (error) {
-  //   console.log(error)
-  // }
-  const detectID = randomString()
-  superagent
-    .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
-    .end(async (err, res) => {
-      // Calling the end function will send the request
-      if (err) {
-        console.log(err)
-      }
-
-      // TODO: Save detection to DB with time, img-link etc.
-      const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
-      const detectTime = moment().calendar()
-      const deviceID = 'lora-device-1'
-
-      try {
-        const event = new Event({
-          title: 'motion detected',
-          deviceID,
-          imgUrl
-        })
-        await event.save()
-      } catch (error) {
-        console.log(error)
-      }
-
-      console.log(imgUrl)
-
-      io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
-    })
 
   // Listen for changes on application from TTN.
-  // ttn.data(process.env.appID, process.env.accessKey)
-  //   .then((client) => {
-  //     client.on('uplink', (devID, payload) => {
-  //       console.log('Received uplink from ', devID)
-  //       console.log(payload)
+  ttn.data(process.env.appID, process.env.accessKey)
+    .then((client) => {
+      client.on('uplink', async (devID, payload) => {
+        console.log('Received uplink from ', devID)
+        const value = payload.payload_fields.value
 
-  //       const detectID = randomString()
-  //       superagent
-  //         .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
-  //         .end((err, res) => {
-  //           // Calling the end function will send the request
-  //           if (err) {
-  //             console.log(err)
-  //           }
+        if (value.includes('ack')) {
+          // If ack was received => Extract message and delete from object.
+          const ack = value.substring(3)
+          delete detections[ack]
+        } else if (detections[value] === undefined) {
+          // If message value has not been detected before. Set 0 for counter.
+          detections[value] = 0
 
-  //           // TODO: Save detection to DB with time, img-link etc.
-  //           const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
-  //           const detectTime = moment().calendar()
-  //           const deviceID = 'lora-device-1'
+          // Send ack to client.
+          client.send(payload.dev_id, [value.substring(value.length - 2)])
+          console.log('Sent ack to node.')
 
-  //           console.log(imgUrl)
+          // Send request to stream server.
+          const detectID = randomString()
+          superagent
+            .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
+            .end(async (err, res) => {
+            // Calling the end function will send the request
+              if (err) {
+                console.log(err)
+              }
 
-  //           io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
-  //         })
+              // TODO: Save detection to DB with time, img-link etc.
+              const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
+              const detectTime = moment().calendar()
+              const deviceID = payload.payload_fields.device
 
-  //       if (payload.payload_fields.message !== 'ack') {
-  //         client.send(payload.dev_id, [1])
-  //         console.log('Sent ack to node.')
-  //       }
-  //     })
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
+              try {
+                const event = new Event({
+                  title: 'motion detected',
+                  deviceID,
+                  imgUrl
+                })
+                await event.save()
+              } catch (error) {
+                console.log(error)
+              }
+
+              io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
+            })
+        } else if (detections[value]) {
+          // Add counts of detections. If 5 counts found send another ack.
+          detections[value] = detections[value]++
+          if (detections[value] > 4) {
+            client.send(payload.dev_id, [value.substring(value.length - 2)])
+            console.log('Sent new ack to node.')
+          }
+        }
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 
   socket.on('disconnect', (data) => {
     console.log(data, 'Socket disconnected')
