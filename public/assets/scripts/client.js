@@ -6,7 +6,8 @@ import Notify from './notify.js'
 
 window.$('.toast').toast('show')
 const socket = window.io()
-const STREAM_SRC = 'http://linnaeus.asuscomm.com:8081'
+let streamSrc = ''
+let streamId = ''
 let img
 let img2
 let p1
@@ -15,7 +16,7 @@ let p1
  * Listens for notification events from the server
  */
 socket.on('notification', (data) => {
-  console.log('Got notification')
+  console.log('Notification received.')
   img = data.imgUrl
   const title = 'Motion detected'
   const url = window.location.href
@@ -25,6 +26,12 @@ socket.on('notification', (data) => {
   const notis = new Notify(title, message, img, deviceID, time, url)
   notis.notify()
   window.$('.toast-body').click(click)
+})
+
+socket.on('streamurl', (data) => {
+  streamId = '?id=' + data.id
+  streamSrc = data.src
+  console.log('Stream id received.', streamId, streamSrc)
 })
 
 /**
@@ -62,7 +69,7 @@ document.body.appendChild(lightbox)
 
 lightbox.addEventListener('click', (e) => {
   if (e.target === img2 || e.target === p1) {
-    img2.setAttribute('src', `${STREAM_SRC}/stream`)
+    img2.setAttribute('src', `${streamSrc}/stream${streamId}`)
     p1.classList.add('hide')
   } else {
     lightbox.classList.toggle('hide')
@@ -90,7 +97,7 @@ window.$('.imagesurl').click(function (e) {
 
 streamBtn.addEventListener('click', () => {
   if (streamBtn.innerText === 'Request Video Stream') {
-    streamTag.src = `${STREAM_SRC}/stream`
+    streamTag.src = `${streamSrc}/stream${streamId}`
     streamTag.classList.replace('hide', 'show')
     noStreamTag.classList.replace('show', 'hide')
     streamBtn.innerText = 'Stop stream'
