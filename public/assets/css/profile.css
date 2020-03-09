@@ -100,10 +100,16 @@
   }
   
   .player {
-    width: 640px;
-    height: 480px;
+    width: 650px;
+    height: 490px;
     background-color: rgba(0, 0, 0, 0.849);
     margin-bottom: 0.65em;
+   overflow: hidden;
+  }
+
+  .playerOn {
+    border: 4px solid rgb(255, 10, 10);
+    border-radius: 4%;
   }
   
   .notis {

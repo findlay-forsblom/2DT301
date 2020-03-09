@@ -62,6 +62,7 @@ function click (e) {
 const streamBtn = document.querySelector('.streamBtn')
 const streamTag = document.querySelector('.player img')
 const noStreamTag = document.querySelector('.player p')
+const player = document.querySelector('.player')
 const lightbox = document.createElement('div')
 lightbox.classList.add('hide')
 lightbox.id = 'lightbox'
@@ -102,10 +103,12 @@ streamBtn.addEventListener('click', () => {
     noStreamTag.classList.replace('show', 'hide')
     streamBtn.innerText = 'Stop stream'
     streamBtn.classList.replace('btn-primary', 'btn-danger')
+    player.classList.add('playerOn')
   } else {
     streamTag.classList.replace('show', 'hide')
     noStreamTag.classList.replace('hide', 'show')
     streamBtn.innerText = 'Request Video Stream'
     streamBtn.classList.replace('btn-danger', 'btn-primary')
+    player.classList.remove('playerOn')
   }
 })
