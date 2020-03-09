@@ -15,9 +15,9 @@ const parseForm = app.bodyParser.urlencoded({ extended: false })
 const router = express.Router()
 
 router.get('/', controller.redirectAuthenticated, app.csrfProtection, controller.index) // Login page
-router.get('/register', app.csrfProtection, controller.register) // route for register page
+// router.get('/register', app.csrfProtection, controller.register) // route for register page
 
-router.post('/register', parseForm, app.csrfProtection, controller.registerPost) // post regsiter handler
+// router.post('/register', parseForm, app.csrfProtection, controller.registerPost) // post regsiter handler
 router.post('/login', parseForm, app.csrfProtection, controller.loginPost) // Login post handler
 router.post('/logout', controller.logout) // Login post handler
 

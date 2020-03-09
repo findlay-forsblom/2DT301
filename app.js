@@ -74,7 +74,7 @@ app.use(helmet.contentSecurityPolicy({
     defaultSrc: ["'self'", 'https://*.cscloud626.lnu.se/'],
     styleSrc: ["'self'", 'https://stackpath.bootstrapcdn.com/', 'https://fonts.googleapis.com/'],
     scriptSrc: ["'self'", 'https://code.jquery.com/', 'https://cscloud626.lnu.se/', 'https://cdn.jsdelivr.net/', 'https://stackpath.bootstrapcdn.com/'],
-    imgSrc: ["'self'", 'http://linnaeus.asuscomm.com:8081/', 'http://85.228.224.34:8081/', 'https://getbootstrap.com/'],
+    imgSrc: ["'self'", 'https://linnaeus.asuscomm.com:8081/', 'https://getbootstrap.com/'],
     connectSrc: ["'self'"],
     fontSrc: ['https://fonts.gstatic.com/', "'self'"]
   }

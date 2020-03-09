@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * Scheme for userss that is used by the Database
+ * Scheme for users that is used by the Database
  */
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
