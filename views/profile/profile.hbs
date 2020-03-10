@@ -8,6 +8,15 @@
         <img src="" class="hide">
       </div>
       <button type="button" class="btn btn-primary streamBtn">Request Video Stream</button>
+        </div>
+        <div class="col-4 lol">
+      <div aria-live="polite" aria-atomic="true"  data-autohide="false">
+        <!-- Position it -->
+        <div class="notis">
+      </div>
+    </div>
+  </div>
+        </div>
       <div class="container">
 
         <h2>Recent events</h2>
@@ -23,10 +32,10 @@
             {{#each events }}
             <div class="row">
             <div class="col-md-8">
-              <p class="text-secondary">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="#" class="imagesurl" data-url="{{this.imgUrl}}">click here</a> to view image taken</p>
+              <p class="text-secondary text">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="#" class="imagesurl" data-url="{{this.imgUrl}}">click here</a> to view image taken</p>
             </div>
             <div class="col-md-4">
-              <p class="text-secondary text-right px-4">{{this.time}}</p>
+              <p class="text-secondary text-right px-4 text">{{this.time}}</p>
             </div>
           </div>
           {{/each}}
@@ -34,16 +43,10 @@
       </div>
       {{#if events}}
       <form action="/profile/{{navBar.username}}/delete" method="POST">
-         <button type="submit" class="btn btn-danger btn-sm float-right">Clear history</button>
+         <button type="submit" class="btn btn-danger btn-sm float-right but">Clear history</button>
       </form>
       {{/if}}
-    </div>
-    <div class="col-4 lol">
-      <div aria-live="polite" aria-atomic="true"  data-autohide="false">
-        <!-- Position it -->
-        <div class="notis">
-      </div>
-    </div>
-  </div>
+
+
 </div>
 <script type="module" src="/assets/scripts/client.js"></script>

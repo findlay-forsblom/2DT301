@@ -2,9 +2,18 @@
     margin-top: 1em;
     margin-bottom: 1em;
   }
+  .text{
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    padding-right: 0em;
+  }
   
   .toast-body {
     cursor: pointer;
+  }
+
+  .but {
+    margin-right: 1em;
   }
 
   .events{
