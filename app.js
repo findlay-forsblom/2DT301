@@ -83,6 +83,7 @@ app.use(helmet.contentSecurityPolicy({
 app.use(session(sessionOptions))
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use('*/images', express.static('public/assets/images'))
 
 app.use((req, res, next) => {
   // flash messages - survives only a round trip
