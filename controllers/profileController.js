@@ -93,7 +93,7 @@ io.on('connection', async (socket) => {
           delete detections[ack]
         } else if (detections[value] === undefined) {
           // Notify video server and client through detectedLoRa function
-          await detectedLora(STREAM_SERVER, client, io, payload, detections, value)
+          detectedLora(STREAM_SERVER, client, io, payload, detections, value)
 
           // DO NOT DELETE THIS BEFORE TESTING!!
           // // If message value has not been detected before. Set 0 for counter.
