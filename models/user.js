@@ -1,7 +1,9 @@
 'use strict'
 
 /**
- * Scheme for users that is used by the Database
+ * Scheme for users that is used by the Database.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnnaeus University.
  */
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')

@@ -11,7 +11,6 @@
  */
 
 const superagent = require('superagent')
-// const randomString = require('../libs/randomString').randomString
 const detectedLora = require('../libs/detectedLoRa').detectedLoRa
 const streamUrl = require('../libs/streamUrl').streamUrl
 const Event = require('../models/event.js')
@@ -23,8 +22,7 @@ const err = {}
 const detections = {}
 
 // Url to video stream server.
-const STREAM_SERVER = 'https://linnaeus.asuscomm.com:8081'
-// const STREAM_SERVER = 'http://85.228.224.34:8081'
+const STREAM_SERVER = process.env.streamUrl
 
 /**
  * Middleware used to ensure that a user is authenticated before allowing them
@@ -60,6 +58,12 @@ profileController.profile = async (req, res, next) => {
   res.render('profile/profile', { events })
 }
 
+/**
+ * Removes all past events.
+ * @param {HTTP request object} req The request made by client.
+ * @param {HTTP response object} res The response to send to client.
+ * @param {Callback function} next Callback for next middleware.
+ */
 profileController.delete = async (req, res, next) => {
   try {
     await Event.deleteMany()
@@ -94,43 +98,6 @@ io.on('connection', async (socket) => {
         } else if (detections[value] === undefined) {
           // Notify video server and client through detectedLoRa function
           detectedLora(STREAM_SERVER, client, io, payload, detections, value)
-
-          // DO NOT DELETE THIS BEFORE TESTING!!
-          // // If message value has not been detected before. Set 0 for counter.
-          // detections[value] = 0
-
-          // // Send ack to client.
-          // client.send(payload.dev_id, [value.substring(value.length - 2)])
-          // console.log('Sent ack to node.')
-
-          // // Send request to stream server.
-          // const detectID = randomString()
-          // superagent
-          //   .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
-          //   .end(async (err, res) => {
-          //   // Calling the end function will send the request
-          //     if (err) {
-          //       console.log(err)
-          //     }
-
-          //     // TODO: Save detection to DB with time, img-link etc.
-          //     const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
-          //     const detectTime = moment().calendar()
-          //     const deviceID = payload.payload_fields.device
-
-          //     io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
-
-          //     try {
-          //       const event = new Event({
-          //         title: 'motion detected',
-          //         deviceID,
-          //         imgUrl
-          //       })
-          //       await event.save()
-          //     } catch (error) {
-          //       console.log(error)
-          //     }
-          //   })
         } else if (detections[value]) {
           // Add counts of detections. If 5 counts found send another ack.
           detections[value] = detections[value]++
@@ -151,39 +118,6 @@ io.on('connection', async (socket) => {
     // End stream id session.
     await superagent.get(`${STREAM_SERVER}/endstream?id=${streamId}`)
   })
-
-  // OLD STUFF :)
-  // console.log(streamUrl)
-
-  // const detectID = randomString()
-  // superagent
-  //   .get(`${STREAM_SERVER}/img/save?id=${detectID}`)
-  //   .end(async (err, res) => {
-  //     // Calling the end function will send the request
-  //     if (err) {
-  //       console.log(err)
-  //     }
-
-  //     // TODO: Save detection to DB with time, img-link etc.
-  //     const imgUrl = `${STREAM_SERVER}/img?id=${detectID}`
-  //     const detectTime = moment().calendar()
-  //     const deviceID = 'lora-device-1'
-
-  //     try {
-  //       const event = new Event({
-  //         title: 'motion detected',
-  //         deviceID,
-  //         imgUrl
-  //       })
-  //       await event.save()
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-
-  //     console.log(imgUrl)
-
-  //     io.emit('notification', { deviceID: deviceID, message: 'Motion detected', imgUrl: imgUrl, time: detectTime })
-  //   })
 })
 
 module.exports = profileController

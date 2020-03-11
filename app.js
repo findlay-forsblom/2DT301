@@ -24,6 +24,7 @@ const redisClient = redis.createClient()
 const RedisStore = require('connect-redis')(session)
 const helmet = require('helmet')
 
+// Set process environment variables.
 dotenv.config({
   path: './.env'
 })
@@ -83,7 +84,7 @@ app.use(helmet.contentSecurityPolicy({
 app.use(session(sessionOptions))
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.use('*/images', express.static('public/assets/images'))
+app.use('*/images', express.static('public/assets/images')) // Needed for favicon.
 
 app.use((req, res, next) => {
   // flash messages - survives only a round trip
@@ -92,17 +93,18 @@ app.use((req, res, next) => {
     delete req.session.flash
   }
   if (req.session.userId) {
-    const lol = {}
+    const user = {}
     const navbar = {}
     navbar.username = req.session.username
-    lol.id = req.session.userId
-    res.locals.loggedIn = lol
+    user.id = req.session.userId
+    res.locals.loggedIn = user
     res.locals.navBar = navbar
   }
 
   next()
 })
 
+// Setup hbs as view engine.
 app.engine('hbs', hbs.express4({
   defaultLayout: path.join(__dirname, 'views', 'layouts', 'default'),
   partialsDir: path.join(__dirname, 'views', 'partials')
@@ -111,6 +113,7 @@ app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: false }))
 
+// Paths
 app.use('/', require('./routes/authRouter.js'))
 app.use('/profile', require('./routes/profileRouter.js'))
 

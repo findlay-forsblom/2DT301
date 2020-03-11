@@ -1,7 +1,9 @@
 'use strict'
 /**
  * Module for creating an Event scheme for the database.
- * This is what is used for storing the recent events
+ * This is what is used for storing the recent events.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
  */
 const mongoose = require('mongoose')
 

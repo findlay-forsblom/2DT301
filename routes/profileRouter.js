@@ -12,6 +12,6 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/:id', controller.ensureAuthenticated, controller.profile) // route for profile
-router.post('/:id/delete', controller.ensureAuthenticated, controller.delete)
+router.post('/:id/delete', controller.ensureAuthenticated, controller.delete) // Delete past events.
 
 module.exports = router

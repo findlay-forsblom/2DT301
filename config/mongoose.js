@@ -1,4 +1,9 @@
 'use strict'
+/**
+ * Set up connection to MongoDB.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
+ */
 const mongoose = require('mongoose')
 
 module.exports.connect = async () => {

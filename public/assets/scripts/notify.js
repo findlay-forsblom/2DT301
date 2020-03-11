@@ -1,3 +1,9 @@
+/**
+ * Creates notifications to client.
+ *
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
+ */
+
 const newToast = document.createElement('template')
 newToast.innerHTML = `
 <!-- Then put toasts within -->

@@ -1,7 +1,10 @@
 import Notify from './notify.js'
 
 /**
- * Main client module
+ * Main client module.
+ *
+ * @author Lars Petter Ulvatne, lu222bg, Linnaeus University.
+ * @author Findlay Forsblom, ff222ey, Linnaeus University.
  */
 
 window.$('.toast').toast('show')
@@ -28,6 +31,9 @@ socket.on('notification', (data) => {
   window.$('.toast-body').click(click)
 })
 
+/**
+ * Fetch current stream url on event.
+ */
 socket.on('streamurl', (data) => {
   streamId = '?id=' + data.id
   streamSrc = data.src
@@ -38,7 +44,6 @@ socket.on('streamurl', (data) => {
  * Function for the click event of the toast-body classes
  * @param {eventObjecct} e -The event object
  */
-
 function click (e) {
   lightbox.innerHTML = ''
   const img = document.createElement('img')
@@ -81,7 +86,6 @@ lightbox.addEventListener('click', (e) => {
  * gets the image url from the recents events and displays the
  * image in form of a lightbox when clicked
  */
-
 window.$('.imagesurl').click(function (e) {
   const url = e.currentTarget.getAttribute('data-url')
   lightbox.innerHTML = ''
@@ -95,7 +99,6 @@ window.$('.imagesurl').click(function (e) {
 /**
  * The function responsible for starting and stopping videoStreams
  */
-
 streamBtn.addEventListener('click', () => {
   if (streamBtn.innerText === 'Request Video Stream') {
     streamTag.src = `${streamSrc}/stream${streamId}`

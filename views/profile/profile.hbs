@@ -8,45 +8,41 @@
         <img src="" class="hide">
       </div>
       <button type="button" class="btn btn-primary streamBtn">Request Video Stream</button>
-        </div>
-        <div class="col-4 lol">
+    </div>
+    <div class="col-4 lol">
       <div aria-live="polite" aria-atomic="true"  data-autohide="false">
         <!-- Position it -->
-        <div class="notis">
+        <div class="notis"></div>
       </div>
     </div>
   </div>
+  <div class="container">
+    <h2>Past events</h2>
+      <div class="row bg-light p-3 ">
+        <div class="col-md-8">
+          <h5 class="text-secondary">Event</h5>
         </div>
-      <div class="container">
-
-        <h2>Past events</h2>
-          <div class="row bg-light p-3 ">
-            <div class="col-md-8">
-              <h5 class="text-secondary">Event</h5>
-            </div>
-            <div class="col-md-4">
-              <h5 class="text-secondary text-right">Time</h5>
-            </div>
-          </div>
-          <div class="events">
-            {{#each events }}
-            <div class="row">
-            <div class="col-md-8">
-              <p class="text-secondary text">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="#" class="imagesurl" data-url="{{this.imgUrl}}">click here</a> to view image taken</p>
-            </div>
-            <div class="col-md-4">
-              <p class="text-secondary text-right px-4 text">{{this.time}}</p>
-            </div>
-          </div>
-          {{/each}}
-          </div>
+        <div class="col-md-4">
+          <h5 class="text-secondary text-right">Time</h5>
+        </div>
       </div>
-      {{#if events}}
-      <form action="/profile/{{navBar.username}}/delete" method="POST">
-         <button type="submit" class="btn btn-danger btn-sm float-right but">Clear history</button>
-      </form>
-      {{/if}}
-
-
+      <div class="events">
+        {{#each events }}
+        <div class="row">
+          <div class="col-md-8">
+            <p class="text-secondary text">Motion detected from <span class="italics">{{this.deviceID}}</span> <a href="#" class="imagesurl" data-url="{{this.imgUrl}}">click here</a> to view image taken</p>
+          </div>
+          <div class="col-md-4">
+            <p class="text-secondary text-right px-4 text">{{this.time}}</p>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+  </div>
+  {{#if events}}
+  <form action="/profile/{{navBar.username}}/delete" method="POST">
+      <button type="submit" class="btn btn-danger btn-sm float-right but">Clear history</button>
+  </form>
+  {{/if}}
 </div>
 <script type="module" src="/assets/scripts/client.js"></script>
