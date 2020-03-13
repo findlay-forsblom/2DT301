@@ -101,9 +101,9 @@ io.on('connection', async (socket) => {
           // Notify video server and client through detectedLoRa function
           detectedLora(STREAM_SERVER, client, io, payload, detections, value)
         } else if (detections[value]) {
-          // Add counts of detections. If 5 counts found send another ack.
+          // Add counts of detections. If 2 counts found send another ack.
           detections[value] = detections[value]++
-          if (detections[value] > 4) {
+          if (detections[value] > 1) {
             client.send(payload.dev_id, [value.substring(value.length - 2)])
             console.log('Sent new ack to node.')
           }
