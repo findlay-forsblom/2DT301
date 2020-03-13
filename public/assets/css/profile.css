@@ -12,6 +12,10 @@
     cursor: pointer;
   }
 
+  .show {
+    border-radius: 1%;
+  }
+
   .but {
     margin-right: 1em;
   }
