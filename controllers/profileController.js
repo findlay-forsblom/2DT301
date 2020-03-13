@@ -88,10 +88,12 @@ io.on('connection', async (socket) => {
   ttn.data(process.env.appID, process.env.accessKey)
     .then((client) => {
       client.on('uplink', async (devID, payload) => {
-        console.log('Received uplink from ', devID)
         const value = payload.payload_fields.value
+        const isAck = value.includes('ack')
 
-        if (value.includes('ack')) {
+        isAck ? console.log('Received ack from ', devID) : console.log('Received uplink from ', devID)
+
+        if (isAck) {
           // If ack was received => Extract message and delete from object.
           const ack = value.substring(3)
           delete detections[ack]
