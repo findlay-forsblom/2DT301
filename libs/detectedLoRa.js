@@ -12,7 +12,7 @@ const moment = require('moment')
 const Event = require('../models/event.js')
 
 async function detectedLoRa (serverUrl, client, io, payload, detections, value) {
-  detections[value] = 0
+  detections[value] = 1
 
   // Send ack to client.
   client.send(payload.dev_id, [value.substring(value.length - 2)])

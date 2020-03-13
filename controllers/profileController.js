@@ -103,7 +103,7 @@ io.on('connection', async (socket) => {
         } else if (detections[value]) {
           // Add counts of detections. If 2 counts found send another ack.
           detections[value] = detections[value]++
-          if (detections[value] > 1) {
+          if (detections[value] > 2) {
             client.send(payload.dev_id, [value.substring(value.length - 2)])
             console.log('Sent new ack to node.')
           }
