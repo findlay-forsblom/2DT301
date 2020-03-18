@@ -24,4 +24,4 @@ Redis is in this project used for storing session variables instead of using mem
 MongoDB Atlas is used to store and handle authentication storage for user details. [Read more.. ](https://www.mongodb.com/cloud/atlas)
 
 ### Moongoose
-Moongoose is a mongodb object modelling tool. In this project mongoose was used to create and model schemas for MongoDb [Read more.. ](https://mongoosejs.com/)
+Moongoose is a MongoDB object modelling tool. In this project mongoose was used to create and model schemas for MongoDB [Read more.. ](https://mongoosejs.com/)
