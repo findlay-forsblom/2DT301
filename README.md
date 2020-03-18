@@ -3,7 +3,7 @@ The application server runs as an Ubuntu server. The application sits behind a r
 
 <!-- ABOUT THE PROJECT -->
 ## Node and Express
-The [Express server](https://www.npmjs.com/package/express) runs in [Nodejs](https://nodejs.org/en/) on the backend. The [Node Package Manager](https://www.npmjs.com/) (npm) is used to run the server and install different modules. In the frontend [Boostrap](https://getbootstrap.com/) with a bit of [Jquery](https://jquery.com/)
+The [Express server](https://www.npmjs.com/package/express) runs in [Nodejs](https://nodejs.org/en/) on the backend. The [Node Package Manager](https://www.npmjs.com/) (npm) is used to run the server and install different modules. In the frontend [Boostrap](https://getbootstrap.com/) with a bit of [Jquery](https://jquery.com/) was used
 
 ## Security
 The application server has several security implementations, such as the reverse proxy, SSL/TLS, authentication, helmet, CSRF, environment variables etc. Most installed modules with implementations can be found in the [app.js](https://github.com/LasseUlvatne/IoT-Project-2DT301/blob/master/Application%20server/app.js) script.
