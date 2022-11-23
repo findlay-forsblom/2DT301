@@ -30,7 +30,7 @@
     "mongoose": "^5.9.0",
     "mongoose-unique-validator": "^2.0.3",
     "redis": "^3.0.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "superagent": "^5.2.2",
     "ttn": "^2.3.3"
   },
